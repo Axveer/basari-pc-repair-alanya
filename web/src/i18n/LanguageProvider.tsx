@@ -1,5 +1,8 @@
 import createContextHook from "@nkzw/create-context-hook";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { alternateLinks, buildJsonLd, canonicalUrl, localeFromPath, LOCALE_PATH, OG_LOCALE } from "@/lib/seo";
 
 import { type Dict, HTML_LANG, type Locale, LOCALES, translations } from "./translations";
 
@@ -9,46 +12,105 @@ function isLocale(value: string | null): value is Locale {
   return value !== null && (LOCALES as readonly string[]).includes(value);
 }
 
-/** Resolves the initial locale from the saved choice, then the browser, then Turkish. */
-function detectLocale(): Locale {
-  if (typeof window === "undefined") return "tr";
+/** Language the visitor explicitly picked on an earlier visit, if any. */
+function storedLocale(): Locale | null {
+  if (typeof window === "undefined") return null;
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (isLocale(stored)) return stored;
+    return isLocale(stored) ? stored : null;
   } catch {
-    // localStorage can be blocked — fall through to browser detection.
+    return null;
   }
-  const candidates = window.navigator.languages ?? [window.navigator.language];
-  for (const candidate of candidates) {
-    const short = candidate.slice(0, 2).toLowerCase();
-    if (isLocale(short)) return short;
+}
+
+function upsertMeta(attr: "name" | "property", key: string, content: string): void {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
   }
-  return "tr";
+  el.setAttribute("content", content);
+}
+
+function upsertLink(rel: string, href: string, hreflang?: string): void {
+  const selector = hreflang ? `link[rel="${rel}"][hreflang="${hreflang}"]` : `link[rel="${rel}"]`;
+  let el = document.head.querySelector<HTMLLinkElement>(selector);
+  if (!el) {
+    el = document.createElement("link");
+    el.setAttribute("rel", rel);
+    if (hreflang) el.setAttribute("hreflang", hreflang);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("href", href);
+}
+
+/** Keeps every og:locale:alternate tag in sync with the active language. */
+function syncOgAlternates(locale: Locale): void {
+  document.head.querySelectorAll('meta[property="og:locale:alternate"]').forEach((node) => node.remove());
+  for (const item of LOCALES) {
+    if (item === locale) continue;
+    const el = document.createElement("meta");
+    el.setAttribute("property", "og:locale:alternate");
+    el.setAttribute("content", OG_LOCALE[item]);
+    document.head.appendChild(el);
+  }
 }
 
 export const [LanguageProvider, useLanguage] = createContextHook(() => {
-  const [locale, setLocaleState] = useState<Locale>(() => detectLocale());
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const locale: Locale = localeFromPath(location.pathname);
   const t: Dict = useMemo(() => translations[locale], [locale]);
 
-  const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // Ignore storage failures — the choice still applies for this session.
+  const setLocale = useCallback(
+    (next: Locale) => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, next);
+      } catch {
+        // Ignore storage failures — the choice still applies for this session.
+      }
+      navigate(`${LOCALE_PATH[next]}${location.hash}`);
+    },
+    [navigate, location.hash],
+  );
+
+  // Send returning visitors to the language they picked before. Only an
+  // explicit earlier choice redirects — crawlers always get the URL they asked
+  // for, so each language version stays indexable on its own address.
+  const redirected = useRef<boolean>(false);
+  useEffect(() => {
+    if (redirected.current) return;
+    redirected.current = true;
+    const preferred = storedLocale();
+    if (preferred && preferred !== locale && locale === "tr") {
+      navigate(`${LOCALE_PATH[preferred]}${location.hash}`, { replace: true });
     }
-  }, []);
+  }, [locale, navigate, location.hash]);
 
   useEffect(() => {
+    const url = canonicalUrl(locale);
+
     document.documentElement.lang = HTML_LANG[locale];
     document.title = t.meta.title;
-    const description = document.querySelector('meta[name="description"]');
-    if (description) description.setAttribute("content", t.meta.description);
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute("content", t.meta.title);
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) ogDescription.setAttribute("content", t.meta.description);
+
+    upsertMeta("name", "description", t.meta.description);
+    upsertMeta("property", "og:title", t.meta.title);
+    upsertMeta("property", "og:description", t.meta.description);
+    upsertMeta("property", "og:url", url);
+    upsertMeta("property", "og:locale", OG_LOCALE[locale]);
+    upsertMeta("name", "twitter:title", t.meta.title);
+    upsertMeta("name", "twitter:description", t.meta.description);
+    syncOgAlternates(locale);
+
+    upsertLink("canonical", url);
+    for (const link of alternateLinks()) {
+      upsertLink("alternate", link.href, link.hreflang);
+    }
+
+    const ld = document.getElementById("ld-business");
+    if (ld) ld.textContent = JSON.stringify(buildJsonLd(locale));
   }, [locale, t]);
 
   return useMemo(() => ({ locale, setLocale, t }), [locale, setLocale, t]);

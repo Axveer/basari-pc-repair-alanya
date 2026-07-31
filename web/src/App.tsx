@@ -13,9 +13,17 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      {/* basename keeps routing correct on GitHub Pages project URLs (/<repo>/). */}
+      <BrowserRouter
+        basename={import.meta.env.BASE_URL}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <Routes>
           <Route path="/" element={<Index />} />
+          {/* One indexable URL per language — matching the static pages built by scripts/seo.ts. */}
+          <Route path="/en" element={<Index />} />
+          <Route path="/de" element={<Index />} />
+          <Route path="/ru" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
