@@ -2,6 +2,7 @@ import { Phone, ShieldCheck, Wrench } from "lucide-react";
 
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { BUSINESS } from "@/lib/business";
+import { asset } from "@/lib/utils";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -11,7 +12,7 @@ export default function Hero() {
       {/* Shop photo */}
       <div className="absolute inset-0">
         <img
-          src="/img/hero-shop.png"
+          src={asset("img/hero-shop.png")}
           alt="Başarı Bilgisayar"
           className="h-full w-full object-cover object-[72%_center] opacity-70 lg:object-[right_center] lg:opacity-100"
           loading="eager"

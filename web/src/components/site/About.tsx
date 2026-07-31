@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 
 import Reveal from "@/components/site/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { asset } from "@/lib/utils";
 
 export default function About() {
   const { t } = useLanguage();
@@ -14,7 +15,7 @@ export default function About() {
             <div className="absolute -left-3 -top-3 hidden h-24 w-24 rounded-tl-3xl border-l-[3px] border-t-[3px] border-brand/40 sm:block" />
             <div className="relative overflow-hidden rounded-2xl bg-navy shadow-card">
               <img
-                src="/img/hero-shop.png"
+                src={asset("img/hero-shop.png")}
                 alt="Başarı Bilgisayar"
                 className="h-[260px] w-full object-cover object-center sm:h-[340px] lg:h-[420px]"
                 loading="lazy"

@@ -30,13 +30,18 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      # Resolves the public path of the Pages site: "/" for a custom domain,
+      # "/<repo-name>" for the default github.io project URL.
+      - id: pages
+        uses: actions/configure-pages@v5
+
       - name: Build
         run: bun run build
+        env:
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
       - name: Add SPA fallback
         run: cp dist/index.html dist/404.html
-
-      - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:

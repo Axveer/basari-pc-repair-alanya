@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
 
 interface LogoProps {
   variant?: "light" | "dark";
@@ -11,7 +11,7 @@ export default function Logo({ variant = "light", className }: LogoProps) {
   return (
     <a href="#home" className={cn("flex items-center gap-2.5 sm:gap-3", className)} aria-label="Başarı Bilgisayar">
       <img
-        src="/img/logo-mark.png"
+        src={asset("img/logo-mark.png")}
         alt=""
         aria-hidden="true"
         className="h-9 w-auto sm:h-11 lg:h-12"
