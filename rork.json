@@ -1,10 +1,13 @@
 {
+  "$schema": "https://rork.com/schema/rork.json",
   "apps": [
     {
       "name": "Basari Bilgisayar",
       "path": "web",
-      "framework": "web"
+      "framework": "web",
+      "settings": {
+        "webSlug": "basari"
+      }
     }
-  ],
-  "$schema": "https://rork.com/schema/rork.json"
+  ]
 }
