@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Başarı Bilgisayar design system — navy #0D1B2A + bright blue #1177EE.
+All shadcn tokens MUST stay in HSL. */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 211 53% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 211 53% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 211 53% 11%;
+
+    --primary: 212 87% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 216 24% 96%;
+    --secondary-foreground: 211 53% 11%;
+
+    --muted: 216 24% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 212 87% 96%;
+    --accent-foreground: 212 87% 32%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 20% 89%;
+    --input: 214 20% 89%;
+    --ring: 212 87% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 212 87% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 212 87% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  ::selection {
+    background: #1177ee;
+    color: #fff;
+  }
+}
+
+@layer components {
+  .section-pad {
+    @apply py-16 md:py-24;
+  }
+
+  .eyebrow {
+    @apply font-display text-[11px] font-bold uppercase tracking-[0.22em] text-brand;
+  }
+
+  .h2-title {
+    @apply font-display text-[26px] font-bold leading-tight text-navy sm:text-[32px] md:text-[40px];
+  }
+
+  .card-base {
+    @apply rounded-2xl border border-border/80 bg-white shadow-card transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:border-brand/40 hover:shadow-lift;
+  }
+
+  .icon-badge {
+    @apply flex shrink-0 items-center justify-center rounded-full bg-brand text-white;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 font-display text-sm font-semibold uppercase tracking-wide text-white transition-all duration-300 hover:bg-brand-bright hover:shadow-lift active:scale-[0.98];
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-navy px-6 py-3.5 font-display text-sm font-semibold uppercase tracking-wide text-white transition-all duration-300 hover:bg-navy-700 active:scale-[0.98];
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/5 px-6 py-3.5 font-display text-sm font-semibold uppercase tracking-wide text-white backdrop-blur-sm transition-all duration-300 hover:border-white hover:bg-white/15 active:scale-[0.98];
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-[13px] font-medium text-ash;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-input bg-white px-4 py-3 text-[15px] text-navy outline-none transition-all placeholder:text-ash/60 focus:border-brand focus:shadow-glow;
+  }
+}
+
+@layer utilities {
+  /* Circuit-board texture used on dark panels */
+  .circuit-grid {
+    background-image:
+      linear-gradient(to right, rgba(17, 119, 238, 0.16) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(17, 119, 238, 0.12) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(rgba(13, 27, 42, 0.09) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 32px rgba(17, 119, 238, 0.45);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
