@@ -8,10 +8,10 @@ export const BUSINESS = {
   phoneLandDisplay: "0242 511 11 12",
   phoneLandTel: "+902425111112",
   whatsapp: "905326766476",
-  addressLine1: "Kadıpaşa Mahallesi, Bostancı Pınar Caddesi",
-  addressLine2: "25 metreyol Türkcell Plaza Arkası",
+  addressLine1: "Kadıpaşa Mah. Ali Haydar Sk. No: 2",
+  addressLine2: "Alanya / Antalya",
   city: "Alanya / Antalya",
-  mapsQuery: "Kadıpaşa Mahallesi Bostancı Pınar Caddesi Alanya Antalya",
+  mapsQuery: "Kadıpaşa Mahallesi Ali Haydar Sokak No 2 Alanya Antalya",
   /** Optional social profiles — leave empty to hide the icon. */
   social: {
     facebook: "",
