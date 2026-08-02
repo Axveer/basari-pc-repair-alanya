@@ -74,7 +74,15 @@ export interface Dict {
       privacy: string;
     };
   };
-  footer: { tagline: string; quickLinks: string; contactTitle: string; languages: string; rights: string; built: string };
+  footer: {
+    tagline: string;
+    quickLinks: string;
+    contactTitle: string;
+    languages: string;
+    rights: string;
+    built: string;
+    credit: string;
+  };
 }
 
 const tr: Dict = {
@@ -256,6 +264,7 @@ const tr: Dict = {
     languages: "Hizmet dillerimiz",
     rights: "Tüm hakları saklıdır.",
     built: "Cihazınız sıradan değil, servisi de öyle olmalı.",
+    credit: "Tasarım ve geliştirme:",
   },
 };
 
@@ -431,6 +440,7 @@ const en: Dict = {
     languages: "Languages we speak",
     rights: "All rights reserved.",
     built: "Your device isn't ordinary — its service shouldn't be either.",
+    credit: "Designed & built by",
   },
 };
 
@@ -613,6 +623,7 @@ const de: Dict = {
     languages: "Unsere Sprachen",
     rights: "Alle Rechte vorbehalten.",
     built: "Ihr Gerät ist nicht gewöhnlich – der Service sollte es auch nicht sein.",
+    credit: "Gestaltet & entwickelt von",
   },
 };
 
@@ -794,6 +805,7 @@ const ru: Dict = {
     languages: "Языки обслуживания",
     rights: "Все права защищены.",
     built: "Ваше устройство не обычное — и сервис не должен быть обычным.",
+    credit: "Дизайн и разработка:",
   },
 };
 

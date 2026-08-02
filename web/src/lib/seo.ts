@@ -26,6 +26,13 @@ export const OG_IMAGE = `${SITE_URL}/img/hero-shop.png`;
 export const OG_IMAGE_WIDTH = 1000;
 export const OG_IMAGE_HEIGHT = 585;
 
+/** Studio that designed and built the site — credited in the footer and schema. */
+export const CREATOR = {
+  name: "Axveer",
+  url: "https://axveer.com",
+  logo: "https://axveer.com/images/logos/Axveer.png",
+} as const;
+
 export const MAP_URL = `https://www.google.com/maps?q=${encodeURIComponent(BUSINESS.mapsQuery)}`;
 
 /** Absolute canonical URL of a language version. */
@@ -129,6 +136,14 @@ export function buildJsonLd(locale: Locale): Record<string, unknown> {
         name: BUSINESS.name,
         inLanguage: HTML_LANG[locale],
         publisher: { "@id": `${SITE_URL}/#business` },
+        creator: { "@id": `${SITE_URL}/#creator` },
+      },
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#creator`,
+        name: CREATOR.name,
+        url: CREATOR.url,
+        logo: CREATOR.logo,
       },
       {
         "@type": "WebPage",

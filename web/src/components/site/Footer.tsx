@@ -1,5 +1,6 @@
 import { Facebook, Instagram, MapPin, Phone } from "lucide-react";
 
+import AxveerCredit from "@/components/site/AxveerCredit";
 import FlagIcon from "@/components/site/FlagIcon";
 import LanguageSwitcher from "@/components/site/LanguageSwitcher";
 import Logo from "@/components/site/Logo";
@@ -137,11 +138,15 @@ export default function Footer() {
       </div>
 
       <div className="relative border-t border-white/10">
-        <div className="container flex flex-col items-center justify-between gap-2 py-5 text-[12.5px] text-white/50 sm:flex-row">
+        <div className="container flex flex-col items-center justify-between gap-3 py-5 text-[12.5px] text-white/50 sm:flex-row">
           <span>
             © {year} {BUSINESS.name}. {t.footer.rights}
           </span>
-          <span className="font-medium text-white/60">{BUSINESS.domain}</span>
+          <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-5">
+            <span className="font-medium text-white/60">{BUSINESS.domain}</span>
+            <span aria-hidden="true" className="hidden h-3 w-px bg-white/15 sm:block" />
+            <AxveerCredit />
+          </div>
         </div>
       </div>
     </footer>
