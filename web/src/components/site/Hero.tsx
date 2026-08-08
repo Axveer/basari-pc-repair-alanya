@@ -12,10 +12,13 @@ export default function Hero() {
       {/* Shop photo */}
       <div className="absolute inset-0">
         <img
-          src={asset("img/hero-shop.png")}
-          alt="Başarı Bilgisayar"
+          src={asset("img/hero-shop.webp")}
+          alt="Başarı Bilgisayar — laptop ve PC servisi, Alanya"
+          width={1000}
+          height={585}
           className="h-full w-full object-cover object-[72%_center] opacity-70 lg:object-[right_center] lg:opacity-100"
           loading="eager"
+          fetchPriority="high"
           decoding="async"
         />
       </div>

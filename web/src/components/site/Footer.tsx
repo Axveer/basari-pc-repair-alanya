@@ -7,9 +7,10 @@ import Logo from "@/components/site/Logo";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { BUSINESS, mapsDirectionsUrl, whatsappUrl } from "@/lib/business";
 import { LOCALES } from "@/i18n/translations";
+import { homeHref } from "@/lib/utils";
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const year = new Date().getFullYear();
 
   const links: { id: string; label: string }[] = [
@@ -110,7 +111,10 @@ export default function Footer() {
           <ul className="mt-4 space-y-2.5">
             {links.map((link) => (
               <li key={link.id}>
-                <a href={`#${link.id}`} className="text-[14px] text-white/65 transition-colors hover:text-brand">
+                <a
+                  href={homeHref(locale, `#${link.id}`)}
+                  className="text-[14px] text-white/65 transition-colors hover:text-brand"
+                >
                   {link.label}
                 </a>
               </li>

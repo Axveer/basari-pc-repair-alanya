@@ -16,6 +16,10 @@ export interface ServiceItem {
   title: string;
   short: string;
   bullets: string[];
+  seoTitle: string;
+  seoDescription: string;
+  intro: string;
+  body: string;
 }
 
 export interface Dict {
@@ -34,7 +38,7 @@ export interface Dict {
   };
   badges: string[];
   moved: { tag: string; title: string; body: string; cta: string; call: string };
-  services: { eyebrow: string; title: string; subtitle: string; items: ServiceItem[]; cta: string };
+  services: { eyebrow: string; title: string; subtitle: string; items: ServiceItem[]; cta: string; more: string };
   about: {
     eyebrow: string;
     title: string;
@@ -47,6 +51,22 @@ export interface Dict {
   parts: { eyebrow: string; title: string; subtitle: string; items: string[]; note: string; cta: string };
   why: { eyebrow: string; title: string; items: { title: string; desc: string }[] };
   blog: { eyebrow: string; title: string; subtitle: string; posts: { tag: string; title: string; excerpt: string }[] };
+  wizard: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    deviceTitle: string;
+    issueTitle: string;
+    summaryTitle: string;
+    devices: Record<"laptop" | "macbook" | "pc" | "tablet", string>;
+    issues: Record<"screen" | "liquid" | "power" | "slow", string>;
+    waIntro: string;
+    cta: string;
+    call: string;
+    back: string;
+    restart: string;
+  };
+  servicePage: { included: string; ctaTitle: string; ctaBody: string; otherServices: string };
   contact: {
     eyebrow: string;
     title: string;
@@ -54,6 +74,8 @@ export interface Dict {
     supportLabel: string;
     landlineLabel: string;
     addressLabel: string;
+    hoursLabel: string;
+    hoursValue: string;
     directions: string;
     whatsappCta: string;
     form: {
@@ -87,9 +109,9 @@ export interface Dict {
 
 const tr: Dict = {
   meta: {
-    title: "Başarı Bilgisayar | Alanya Laptop, PC ve Apple Servisi",
+    title: "Alanya Laptop & PC Tamiri | Başarı Bilgisayar (1999'dan Beri)",
     description:
-      "1999'dan beri Alanya'da bilgisayar, laptop, tablet ve Apple ürünleri tamiri. Teknik servis, yedek parça ve hızlı çözüm.",
+      "Alanya'da laptop, PC, MacBook tamiri ve yedek parça servisi. Ücretsiz arıza tespiti, garantili çip onarımı ve hızlı teslimat. Kadıpaşa Mahallesinde hizmetinizdeyiz.",
   },
   nav: {
     home: "Ana Sayfa",
@@ -129,27 +151,56 @@ const tr: Dict = {
         title: "Teknik Servis",
         short: "Deneyimli teknik ekibimizle hızlı ve garantili çözümler.",
         bullets: ["Ücretsiz arıza tespiti", "Anakart ve çip seviyesi onarım", "Format, kurulum ve virüs temizliği"],
+        seoTitle: "Teknik Servis Alanya | Ücretsiz Arıza Tespiti | Başarı Bilgisayar",
+        seoDescription:
+          "Alanya'da bilgisayar teknik servisi: ücretsiz arıza tespiti, anakart ve çip seviyesi onarım, format, kurulum ve virüs temizliği. 1999'dan beri garantili hizmet.",
+        intro:
+          "Bilgisayarınız açılmıyor, donuyor ya da hata mı veriyor? Her cihaza kendi atölyemizde ücretsiz arıza tespiti yapıyor, onayınız olmadan hiçbir işleme başlamıyoruz.",
+        body:
+          "Anakart ve çip seviyesi onarım, sıvı teması sonrası kurtarma, işletim sistemi kurulumu, virüs temizliği ve veri kurtarma işlemlerinin tamamı kendi atölyemizde yapılır. 1999'dan beri Alanya'da binlerce cihazı garantili olarak onardık.",
       },
       {
         id: "laptop",
         title: "Laptop & Bilgisayar Tamiri",
         short: "Tüm marka ve modellerde bakım, onarım ve yükseltme.",
         bullets: ["Ekran, klavye ve batarya değişimi", "Isınma sorunu ve termal bakım", "SSD / RAM yükseltmesi"],
+        seoTitle: "Alanya Laptop Tamiri | Ekran Değişimi & SSD Yükseltme | Başarı Bilgisayar",
+        seoDescription:
+          "Alanya'da tüm marka laptop tamiri: ekran değişimi, klavye ve batarya değişimi, ısınma sorunu, termal bakım, SSD ve RAM yükseltme. Hızlı ve garantili.",
+        intro:
+          "Kırık ekran, bozuk klavye, şarj sorunu ya da yavaşlayan bir laptop — tüm marka ve modellerde bakım, onarım ve yükseltmeyi çoğu zaman aynı gün tamamlıyoruz.",
+        body:
+          "Laptop ekran değişimi, menteşe onarımı, şarj soketi (DC jack) değişimi, fan temizliği ve termal macun yenileme, HDD'den SSD'ye geçiş ve RAM yükseltme her gün yaptığımız işlerdir. Orijinal ve uyumlu parçalarla, işçilik garantisiyle çalışıyoruz.",
       },
       {
         id: "apple",
         title: "Tablet & Apple Ürünleri",
         short: "iPad, iPhone, MacBook ve iMac için profesyonel servis.",
         bullets: ["MacBook ve iMac onarımı", "iPhone / iPad ekran ve batarya", "macOS kurulum ve veri aktarımı"],
+        seoTitle: "Alanya MacBook Tamiri | Apple, iPhone & iPad Servisi | Başarı Bilgisayar",
+        seoDescription:
+          "Alanya'da MacBook, iMac, iPhone ve iPad tamiri: ekran ve batarya değişimi, macOS kurulumu, veri aktarımı ve anakart onarımı. Apple ürünlerinde uzman servis.",
+        intro:
+          "MacBook anakartından iPhone ekranına kadar tüm Apple ailesine, bu cihazların hak ettiği özenle bakıyoruz — Türkçe, İngilizce, Almanca ve Rusça destekle.",
+        body:
+          "MacBook ve iMac onarımı, iPhone ve iPad ekran veya batarya değişimi, macOS kurulumu, veri taşıma ve sıvı teması müdahalesi kendi atölyemizde yapılır. Önce ücretsiz arıza tespiti, sonra net fiyat.",
       },
       {
         id: "parts",
         title: "Yedek Parça & Hızlı Çözüm",
         short: "Orijinal yedek parçalar ve hızlı, kalıcı çözümler.",
         bullets: ["Geniş yedek parça stoğu", "Aynı gün çözüm imkanı", "Uyumlu parça danışmanlığı"],
+        seoTitle: "Alanya Laptop Yedek Parça | Ekran, Batarya, Klavye | Başarı Bilgisayar",
+        seoDescription:
+          "Alanya'da orijinal ve uyumlu laptop yedek parçaları: ekran, batarya, klavye, adaptör, SSD, RAM, fan ve MacBook parçaları. Aynı gün montaj imkanı.",
+        intro:
+          "Geniş orijinal ve uyumlu yedek parça stoğumuz sayesinde onarımlar kargo beklemez; montaj çoğu zaman aynı gün tamamlanır.",
+        body:
+          "Laptop ekranı ve panel, batarya, klavye, şarj adaptörü ve DC soket, SSD ve RAM, fan, menteşe ve MacBook parçaları stoğumuzda mevcuttur. Aradığınız parça yoksa hızlıca temin ediyor, doğru ve uyumlu seçim için danışmanlık veriyoruz.",
       },
     ],
     cta: "Bu hizmet için bize yazın",
+    more: "Detaylı bilgi",
   },
   about: {
     eyebrow: "Hakkımızda",
@@ -237,6 +288,8 @@ const tr: Dict = {
     supportLabel: "7/24 Destek Hattı",
     landlineLabel: "Sabit Telefon",
     addressLabel: "Adresimiz",
+    hoursLabel: "Çalışma Saatleri",
+    hoursValue: "Pazartesi – Cumartesi, 09:00 – 19:00",
     directions: "Yol tarifi",
     whatsappCta: "WhatsApp'tan Yaz",
     form: {
@@ -257,6 +310,32 @@ const tr: Dict = {
       privacy: "Bilgileriniz yalnızca size dönüş yapmak için kullanılır.",
     },
   },
+  wizard: {
+    eyebrow: "Hızlı Teklif",
+    title: "Arızanızı seçin, fiyat teklifi alın",
+    subtitle: "İki adımda cihazınızı ve sorununuzu seçin; seçiminiz hazır bir WhatsApp mesajına dönüşsün.",
+    deviceTitle: "Cihazınız hangisi?",
+    issueTitle: "Sorun nedir?",
+    summaryTitle: "Seçiminiz",
+    devices: { laptop: "Laptop", macbook: "MacBook", pc: "Masaüstü PC", tablet: "Tablet / iPad" },
+    issues: {
+      screen: "Ekran kırık / görüntü yok",
+      liquid: "Sıvı teması",
+      power: "Açılmıyor / şarj olmuyor",
+      slow: "Yavaş / ısınıyor",
+    },
+    waIntro: "Merhaba, cihazım için fiyat teklifi almak istiyorum.",
+    cta: "WhatsApp'tan Teklif Al",
+    call: "Ya da hemen arayın",
+    back: "Geri",
+    restart: "Baştan başla",
+  },
+  servicePage: {
+    included: "Neler dahil?",
+    ctaTitle: "Cihazınızı bize getirin",
+    ctaBody: "Ücretsiz arıza tespiti için arayın ya da WhatsApp'tan yazın; aynı gün dönüş yapalım.",
+    otherServices: "Diğer hizmetlerimiz",
+  },
   footer: {
     tagline: "Alanya'da bilgisayar, laptop, tablet ve Apple ürünleri teknik servisi.",
     quickLinks: "Hızlı Bağlantılar",
@@ -270,9 +349,9 @@ const tr: Dict = {
 
 const en: Dict = {
   meta: {
-    title: "Başarı Bilgisayar | Laptop, PC & Apple Repair in Alanya",
+    title: "Laptop Repair Alanya | PC & MacBook Service | Başarı Computer",
     description:
-      "Trusted computer, laptop, tablet and Apple repair in Alanya since 1999. Technical service, spare parts and fast solutions.",
+      "Professional laptop, MacBook & PC repair in Alanya & Antalya. Free diagnosis, fast turnaround, motherboard repair & screen replacement. English service available.",
   },
   nav: { home: "Home", about: "About", services: "Services", parts: "Spare Parts", blog: "Blog", contact: "Contact" },
   topbar: { support: "24/7 Support Line", landline: "Landline", menu: "Menu", language: "Language" },
@@ -305,27 +384,56 @@ const en: Dict = {
         title: "Technical Service",
         short: "Fast, warranted solutions from our experienced technicians.",
         bullets: ["Free fault diagnosis", "Motherboard & chip-level repair", "OS install, setup and virus removal"],
+        seoTitle: "Technical Service Alanya | Free Computer Diagnosis | Başarı Bilgisayar",
+        seoDescription:
+          "Computer technical service in Alanya: free fault diagnosis, motherboard & chip-level repair, OS installation and virus removal. Warranted work since 1999.",
+        intro:
+          "Computer won't boot, freezes or throws random errors? We diagnose every device free of charge in our own workshop and never start work without your approval.",
+        body:
+          "Motherboard and chip-level repair, liquid damage recovery, operating system installation, virus removal and data recovery are all done in-house. Since 1999 we have repaired thousands of devices in Alanya — always with a warranty on our work.",
       },
       {
         id: "laptop",
         title: "Laptop & Computer Repair",
         short: "Maintenance, repair and upgrades for all brands and models.",
         bullets: ["Screen, keyboard and battery replacement", "Overheating and thermal service", "SSD / RAM upgrades"],
+        seoTitle: "Laptop Repair Alanya | Screen Replacement & SSD Upgrade | Başarı Bilgisayar",
+        seoDescription:
+          "All-brand laptop repair in Alanya: screen replacement, keyboard & battery swap, overheating fix, thermal service, SSD and RAM upgrades. Fast and warranted.",
+        intro:
+          "A cracked screen, a failing keyboard, charging problems or a laptop that got slow — we maintain, repair and upgrade all brands and models, often the same day.",
+        body:
+          "Laptop screen replacement, hinge repair, DC jack replacement, fan cleaning with fresh thermal paste, HDD-to-SSD migration and RAM upgrades are our daily work. We use original and compatible parts and back every job with a workmanship warranty.",
       },
       {
         id: "apple",
         title: "Tablet & Apple Products",
         short: "Professional service for iPad, iPhone, MacBook and iMac.",
         bullets: ["MacBook and iMac repair", "iPhone / iPad screen and battery", "macOS setup and data transfer"],
+        seoTitle: "MacBook Repair Alanya | Apple, iPhone & iPad Service | Başarı Bilgisayar",
+        seoDescription:
+          "MacBook, iMac, iPhone and iPad repair in Alanya: screen and battery replacement, macOS setup, data transfer and logic board repair. Apple specialists since 1999.",
+        intro:
+          "From MacBook logic boards to iPhone screens, we service the whole Apple family with the care these devices deserve — in English, German, Russian or Turkish.",
+        body:
+          "MacBook and iMac repair, iPhone and iPad screen or battery replacement, macOS installation, data migration and liquid damage treatment are handled in our own workshop. Free diagnosis first, clear pricing before any work begins.",
       },
       {
         id: "parts",
         title: "Spare Parts & Fast Solutions",
         short: "Original spare parts and fast, lasting solutions.",
         bullets: ["Wide spare parts stock", "Same-day solutions when possible", "Advice on compatible parts"],
+        seoTitle: "Laptop Spare Parts Alanya | Screens, Batteries, Keyboards | Başarı Bilgisayar",
+        seoDescription:
+          "Original and compatible laptop spare parts in Alanya: screens, batteries, keyboards, chargers, SSDs, RAM, fans and MacBook parts. Same-day fitting available.",
+        intro:
+          "We keep a wide stock of original and compatible spare parts, so most repairs don't have to wait for shipping — and fitting is often done the same day.",
+        body:
+          "Laptop screens and panels, batteries, keyboards, chargers and DC jacks, SSDs and RAM, cooling fans, hinges and MacBook parts are available from stock. If a part is missing, we source it quickly and advise you on the right, compatible choice.",
       },
     ],
     cta: "Ask about this service",
+    more: "Learn more",
   },
   about: {
     eyebrow: "About Us",
@@ -413,6 +521,8 @@ const en: Dict = {
     supportLabel: "24/7 Support Line",
     landlineLabel: "Landline",
     addressLabel: "Our Address",
+    hoursLabel: "Opening Hours",
+    hoursValue: "Monday – Saturday, 09:00 – 19:00",
     directions: "Directions",
     whatsappCta: "Message on WhatsApp",
     form: {
@@ -433,6 +543,32 @@ const en: Dict = {
       privacy: "Your details are used only to get back to you.",
     },
   },
+  wizard: {
+    eyebrow: "Quick Quote",
+    title: "Pick your issue, get an instant quote",
+    subtitle: "Choose your device and problem in two steps — we turn it into a ready WhatsApp message.",
+    deviceTitle: "Which device is it?",
+    issueTitle: "What's the problem?",
+    summaryTitle: "Your selection",
+    devices: { laptop: "Laptop", macbook: "MacBook", pc: "Desktop PC", tablet: "Tablet / iPad" },
+    issues: {
+      screen: "Broken screen / no display",
+      liquid: "Liquid spill",
+      power: "Won't turn on / not charging",
+      slow: "Slow / overheating",
+    },
+    waIntro: "Hello, I'd like a repair quote for my device.",
+    cta: "Get Quote on WhatsApp",
+    call: "Or call us now",
+    back: "Back",
+    restart: "Start over",
+  },
+  servicePage: {
+    included: "What's included",
+    ctaTitle: "Bring your device to us",
+    ctaBody: "Call or message us on WhatsApp for a free diagnosis — we reply the same day.",
+    otherServices: "Other services",
+  },
   footer: {
     tagline: "Computer, laptop, tablet and Apple technical service in Alanya.",
     quickLinks: "Quick Links",
@@ -446,9 +582,9 @@ const en: Dict = {
 
 const de: Dict = {
   meta: {
-    title: "Başarı Bilgisayar | Laptop-, PC- & Apple-Reparatur in Alanya",
+    title: "Laptop Reparatur Alanya | PC & MacBook Werkstatt | Başarı",
     description:
-      "Seit 1999 zuverlässige Reparatur von Computern, Laptops, Tablets und Apple-Geräten in Alanya. Technischer Service, Ersatzteile und schnelle Lösungen.",
+      "Professionelle Laptop-, PC- & MacBook-Reparatur in Alanya. Kostenlose Diagnose, Garantie auf Reparaturen & schneller Service. Deutschsprachige Betreuung.",
   },
   nav: {
     home: "Startseite",
@@ -488,27 +624,56 @@ const de: Dict = {
         title: "Technischer Service",
         short: "Schnelle Lösungen mit Garantie von erfahrenen Technikern.",
         bullets: ["Kostenlose Fehlerdiagnose", "Mainboard- und Chip-Reparatur", "Installation und Virenentfernung"],
+        seoTitle: "Technischer Service Alanya | Kostenlose Diagnose | Başarı Bilgisayar",
+        seoDescription:
+          "Computer-Service in Alanya: kostenlose Fehlerdiagnose, Mainboard- und Chip-Reparatur, Systeminstallation und Virenentfernung. Garantierte Arbeit seit 1999.",
+        intro:
+          "Ihr Computer startet nicht, friert ein oder zeigt Fehler? Wir diagnostizieren jedes Gerät kostenlos in unserer eigenen Werkstatt — und arbeiten nur nach Ihrer Freigabe.",
+        body:
+          "Mainboard- und Chip-Reparaturen, Rettung nach Flüssigkeitsschäden, Systeminstallation, Virenentfernung und Datenrettung erledigen wir komplett im Haus. Seit 1999 haben wir in Alanya tausende Geräte repariert — immer mit Garantie.",
       },
       {
         id: "laptop",
         title: "Laptop- & Computerreparatur",
         short: "Wartung, Reparatur und Aufrüstung aller Marken und Modelle.",
         bullets: ["Display-, Tastatur- und Akkuwechsel", "Überhitzung und Thermal-Service", "SSD- / RAM-Aufrüstung"],
+        seoTitle: "Laptop Reparatur Alanya | Display-Tausch & SSD-Upgrade | Başarı Bilgisayar",
+        seoDescription:
+          "Laptop-Reparatur aller Marken in Alanya: Display-Tausch, Tastatur- und Akkuwechsel, Überhitzung, Thermal-Service, SSD- und RAM-Upgrade. Schnell und mit Garantie.",
+        intro:
+          "Gebrochenes Display, defekte Tastatur, Ladeprobleme oder ein langsamer Laptop — wir warten, reparieren und rüsten alle Marken und Modelle auf, oft noch am selben Tag.",
+        body:
+          "Display-Tausch, Scharnier-Reparatur, Wechsel der Ladebuchse, Lüfterreinigung mit frischer Wärmeleitpaste, Umstieg von HDD auf SSD und RAM-Erweiterung gehören zu unserem Alltag. Wir verwenden Original- und kompatible Teile — mit Garantie auf die Arbeit.",
       },
       {
         id: "apple",
         title: "Tablet & Apple-Produkte",
         short: "Professioneller Service für iPad, iPhone, MacBook und iMac.",
         bullets: ["MacBook- und iMac-Reparatur", "iPhone- / iPad-Display und Akku", "macOS-Setup und Datenübertragung"],
+        seoTitle: "MacBook Reparatur Alanya | Apple, iPhone & iPad Service | Başarı Bilgisayar",
+        seoDescription:
+          "MacBook-, iMac-, iPhone- und iPad-Reparatur in Alanya: Display- und Akkuwechsel, macOS-Installation, Datenübernahme und Logicboard-Reparatur. Apple-Spezialisten.",
+        intro:
+          "Vom MacBook-Logicboard bis zum iPhone-Display: Wir betreuen die ganze Apple-Familie mit der nötigen Sorgfalt — auf Deutsch, Englisch, Russisch oder Türkisch.",
+        body:
+          "MacBook- und iMac-Reparatur, Display- oder Akkuwechsel bei iPhone und iPad, macOS-Installation, Datenmigration und Behandlung von Flüssigkeitsschäden erfolgen in unserer eigenen Werkstatt. Erst die kostenlose Diagnose, dann ein klarer Preis.",
       },
       {
         id: "parts",
         title: "Ersatzteile & schnelle Lösung",
         short: "Original-Ersatzteile und schnelle, dauerhafte Lösungen.",
         bullets: ["Großes Ersatzteillager", "Lösung oft am selben Tag", "Beratung zu passenden Teilen"],
+        seoTitle: "Laptop Ersatzteile Alanya | Displays, Akkus, Tastaturen | Başarı Bilgisayar",
+        seoDescription:
+          "Original- und kompatible Ersatzteile in Alanya: Displays, Akkus, Tastaturen, Netzteile, SSDs, RAM, Lüfter und MacBook-Teile. Einbau oft am selben Tag.",
+        intro:
+          "Wir führen ein großes Lager an Original- und kompatiblen Ersatzteilen — so muss Ihre Reparatur nicht auf den Versand warten, der Einbau erfolgt oft am selben Tag.",
+        body:
+          "Displays und Panels, Akkus, Tastaturen, Netzteile und Ladebuchsen, SSDs und RAM, Lüfter, Scharniere und MacBook-Teile sind ab Lager verfügbar. Fehlt ein Teil, besorgen wir es schnell und beraten Sie zur passenden, kompatiblen Wahl.",
       },
     ],
     cta: "Zu dieser Leistung schreiben",
+    more: "Mehr erfahren",
   },
   about: {
     eyebrow: "Über uns",
@@ -596,6 +761,8 @@ const de: Dict = {
     supportLabel: "24/7 Support-Hotline",
     landlineLabel: "Festnetz",
     addressLabel: "Unsere Adresse",
+    hoursLabel: "Öffnungszeiten",
+    hoursValue: "Montag – Samstag, 09:00 – 19:00",
     directions: "Route",
     whatsappCta: "Per WhatsApp schreiben",
     form: {
@@ -616,6 +783,32 @@ const de: Dict = {
       privacy: "Ihre Angaben nutzen wir nur, um Sie zu kontaktieren.",
     },
   },
+  wizard: {
+    eyebrow: "Schnelles Angebot",
+    title: "Problem wählen, Angebot erhalten",
+    subtitle: "Wählen Sie in zwei Schritten Gerät und Problem — daraus wird eine fertige WhatsApp-Nachricht.",
+    deviceTitle: "Welches Gerät ist es?",
+    issueTitle: "Was ist das Problem?",
+    summaryTitle: "Ihre Auswahl",
+    devices: { laptop: "Laptop", macbook: "MacBook", pc: "Desktop-PC", tablet: "Tablet / iPad" },
+    issues: {
+      screen: "Display defekt / kein Bild",
+      liquid: "Flüssigkeitsschaden",
+      power: "Startet nicht / lädt nicht",
+      slow: "Langsam / überhitzt",
+    },
+    waIntro: "Hallo, ich möchte ein Reparaturangebot für mein Gerät.",
+    cta: "Angebot per WhatsApp",
+    call: "Oder rufen Sie uns an",
+    back: "Zurück",
+    restart: "Neu beginnen",
+  },
+  servicePage: {
+    included: "Was ist enthalten?",
+    ctaTitle: "Bringen Sie Ihr Gerät vorbei",
+    ctaBody: "Rufen Sie an oder schreiben Sie per WhatsApp für eine kostenlose Diagnose — Antwort noch am selben Tag.",
+    otherServices: "Weitere Leistungen",
+  },
   footer: {
     tagline: "Technischer Service für Computer, Laptops, Tablets und Apple-Geräte in Alanya.",
     quickLinks: "Schnellzugriff",
@@ -629,9 +822,9 @@ const de: Dict = {
 
 const ru: Dict = {
   meta: {
-    title: "Başarı Bilgisayar | Ремонт ноутбуков, ПК и Apple в Алании",
+    title: "Ремонт Ноутбуков Аланья | Компьютерный Сервис | Başarı",
     description:
-      "С 1999 года надёжный ремонт компьютеров, ноутбуков, планшетов и техники Apple в Алании. Сервис, запчасти и быстрые решения.",
+      "Качественный ремонт ноутбуков, MacBook и ПК в Аланье. Бесплатная диагностика, замена экранов, чистка и чип-ремонт. Говорим по-русски. Звоните!",
   },
   nav: {
     home: "Главная",
@@ -670,27 +863,56 @@ const ru: Dict = {
         title: "Технический сервис",
         short: "Быстрые решения с гарантией от опытных мастеров.",
         bullets: ["Бесплатная диагностика", "Ремонт материнских плат и чипов", "Установка систем и удаление вирусов"],
+        seoTitle: "Технический Сервис Аланья | Бесплатная Диагностика | Başarı Bilgisayar",
+        seoDescription:
+          "Компьютерный сервис в Аланье: бесплатная диагностика, ремонт материнских плат и чипов, установка системы и удаление вирусов. Гарантия на работы с 1999 года.",
+        intro:
+          "Компьютер не включается, зависает или выдаёт ошибки? Мы бесплатно диагностируем каждое устройство в собственной мастерской и не начинаем работы без вашего согласия.",
+        body:
+          "Ремонт материнских плат и чипов, восстановление после попадания жидкости, установка операционной системы, удаление вирусов и восстановление данных — всё выполняется в нашей мастерской. С 1999 года мы отремонтировали в Аланье тысячи устройств — всегда с гарантией.",
       },
       {
         id: "laptop",
         title: "Ремонт ноутбуков и ПК",
         short: "Обслуживание, ремонт и апгрейд любых марок и моделей.",
         bullets: ["Замена экрана, клавиатуры, батареи", "Перегрев и замена термопасты", "Апгрейд SSD / RAM"],
+        seoTitle: "Ремонт Ноутбуков Аланья | Замена Экрана и Апгрейд SSD | Başarı Bilgisayar",
+        seoDescription:
+          "Ремонт ноутбуков всех марок в Аланье: замена экрана, клавиатуры и батареи, чистка от пыли, замена термопасты, апгрейд SSD и RAM. Быстро и с гарантией.",
+        intro:
+          "Разбитый экран, неисправная клавиатура, проблемы с зарядкой или медленный ноутбук — обслуживаем, ремонтируем и модернизируем все марки и модели, часто в тот же день.",
+        body:
+          "Замена экрана, ремонт петель, замена разъёма зарядки, чистка от пыли с заменой термопасты, переход с HDD на SSD и расширение памяти — наша ежедневная работа. Используем оригинальные и совместимые детали, даём гарантию на работу.",
       },
       {
         id: "apple",
         title: "Планшеты и техника Apple",
         short: "Профессиональный сервис iPad, iPhone, MacBook и iMac.",
         bullets: ["Ремонт MacBook и iMac", "Экран и батарея iPhone / iPad", "Установка macOS и перенос данных"],
+        seoTitle: "Ремонт MacBook Аланья | Сервис Apple, iPhone и iPad | Başarı Bilgisayar",
+        seoDescription:
+          "Ремонт MacBook, iMac, iPhone и iPad в Аланье: замена экрана и батареи, установка macOS, перенос данных и ремонт платы. Специалисты по технике Apple.",
+        intro:
+          "От платы MacBook до экрана iPhone — обслуживаем всю технику Apple с должной аккуратностью. Говорим по-русски, по-английски, по-немецки и по-турецки.",
+        body:
+          "Ремонт MacBook и iMac, замена экрана или батареи iPhone и iPad, установка macOS, перенос данных и восстановление после попадания жидкости выполняются в нашей мастерской. Сначала бесплатная диагностика, затем понятная цена.",
       },
       {
         id: "parts",
         title: "Запчасти и быстрое решение",
         short: "Оригинальные запчасти и надёжный результат.",
         bullets: ["Большой склад запчастей", "Часто решаем в тот же день", "Подбор совместимых деталей"],
+        seoTitle: "Запчасти для Ноутбуков Аланья | Экраны, Батареи, Клавиатуры | Başarı",
+        seoDescription:
+          "Оригинальные и совместимые запчасти в Аланье: матрицы, батареи, клавиатуры, зарядки, SSD, RAM, вентиляторы и детали MacBook. Установка в день обращения.",
+        intro:
+          "У нас большой склад оригинальных и совместимых запчастей — ремонт не ждёт доставку, установка часто выполняется в тот же день.",
+        body:
+          "Матрицы и экраны, батареи, клавиатуры, зарядные устройства и разъёмы, SSD и память, вентиляторы, петли и детали MacBook — в наличии на складе. Если детали нет, быстро привезём её и поможем подобрать правильный совместимый вариант.",
       },
     ],
     cta: "Написать об этой услуге",
+    more: "Подробнее",
   },
   about: {
     eyebrow: "О нас",
@@ -778,6 +1000,8 @@ const ru: Dict = {
     supportLabel: "Линия поддержки 24/7",
     landlineLabel: "Городской телефон",
     addressLabel: "Наш адрес",
+    hoursLabel: "Часы работы",
+    hoursValue: "Понедельник – Суббота, 09:00 – 19:00",
     directions: "Маршрут",
     whatsappCta: "Написать в WhatsApp",
     form: {
@@ -797,6 +1021,32 @@ const ru: Dict = {
       error: "Пожалуйста, заполните имя, телефон и сообщение.",
       privacy: "Ваши данные используются только для ответа вам.",
     },
+  },
+  wizard: {
+    eyebrow: "Быстрая оценка",
+    title: "Выберите проблему — получите расчёт",
+    subtitle: "Выберите устройство и проблему в два шага — мы превратим выбор в готовое сообщение WhatsApp.",
+    deviceTitle: "Какое у вас устройство?",
+    issueTitle: "В чём проблема?",
+    summaryTitle: "Ваш выбор",
+    devices: { laptop: "Ноутбук", macbook: "MacBook", pc: "Настольный ПК", tablet: "Планшет / iPad" },
+    issues: {
+      screen: "Разбит экран / нет изображения",
+      liquid: "Попала жидкость",
+      power: "Не включается / не заряжается",
+      slow: "Тормозит / перегревается",
+    },
+    waIntro: "Здравствуйте, хочу узнать стоимость ремонта.",
+    cta: "Расчёт в WhatsApp",
+    call: "Или позвоните нам",
+    back: "Назад",
+    restart: "Начать заново",
+  },
+  servicePage: {
+    included: "Что входит",
+    ctaTitle: "Привозите устройство к нам",
+    ctaBody: "Позвоните или напишите в WhatsApp для бесплатной диагностики — ответим в тот же день.",
+    otherServices: "Другие услуги",
   },
   footer: {
     tagline: "Технический сервис компьютеров, ноутбуков, планшетов и техники Apple в Алании.",

@@ -21,7 +21,7 @@ export default function WhatsAppFab() {
       rel="noopener noreferrer"
       aria-label="WhatsApp"
       className={cn(
-        "fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_14px_34px_-10px_rgba(37,211,102,0.8)] transition-all duration-500 hover:scale-105 active:scale-95 sm:bottom-7 sm:right-7 sm:h-16 sm:w-16",
+        "fixed bottom-5 right-5 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_14px_34px_-10px_rgba(37,211,102,0.8)] transition-all duration-500 hover:scale-105 active:scale-95 sm:bottom-7 sm:right-7 sm:flex sm:h-16 sm:w-16",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0",
       )}
     >

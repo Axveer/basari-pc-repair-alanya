@@ -2,7 +2,17 @@ import createContextHook from "@nkzw/create-context-hook";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { alternateLinks, buildJsonLd, canonicalUrl, localeFromPath, LOCALE_PATH, OG_LOCALE } from "@/lib/seo";
+import {
+  alternateLinks,
+  buildJsonLd,
+  localeFromPath,
+  LOCALE_PATH,
+  OG_LOCALE,
+  pageMeta,
+  pageUrl,
+  serviceIdFromPath,
+  servicePath,
+} from "@/lib/seo";
 
 import { type Dict, HTML_LANG, type Locale, LOCALES, translations } from "./translations";
 
@@ -62,6 +72,7 @@ export const [LanguageProvider, useLanguage] = createContextHook(() => {
   const navigate = useNavigate();
 
   const locale: Locale = localeFromPath(location.pathname);
+  const serviceId = serviceIdFromPath(location.pathname);
   const t: Dict = useMemo(() => translations[locale], [locale]);
 
   const setLocale = useCallback(
@@ -71,47 +82,50 @@ export const [LanguageProvider, useLanguage] = createContextHook(() => {
       } catch {
         // Ignore storage failures — the choice still applies for this session.
       }
-      navigate(`${LOCALE_PATH[next]}${location.hash}`);
+      // Jump to the equivalent page in the new language.
+      const target = serviceId ? servicePath(next, serviceId) : `${LOCALE_PATH[next]}${location.hash}`;
+      navigate(target);
     },
-    [navigate, location.hash],
+    [navigate, location.hash, serviceId],
   );
 
   // Send returning visitors to the language they picked before. Only an
-  // explicit earlier choice redirects — crawlers always get the URL they asked
-  // for, so each language version stays indexable on its own address.
+  // explicit earlier choice on the ROOT page redirects — crawlers always get
+  // the URL they asked for, so every version stays indexable on its own URL.
   const redirected = useRef<boolean>(false);
   useEffect(() => {
     if (redirected.current) return;
     redirected.current = true;
     const preferred = storedLocale();
-    if (preferred && preferred !== locale && locale === "tr") {
+    if (preferred && preferred !== "tr" && location.pathname === "/") {
       navigate(`${LOCALE_PATH[preferred]}${location.hash}`, { replace: true });
     }
-  }, [locale, navigate, location.hash]);
+  }, [navigate, location.pathname, location.hash]);
 
   useEffect(() => {
-    const url = canonicalUrl(locale);
+    const url = pageUrl(locale, serviceId);
+    const meta = pageMeta(locale, serviceId);
 
     document.documentElement.lang = HTML_LANG[locale];
-    document.title = t.meta.title;
+    document.title = meta.title;
 
-    upsertMeta("name", "description", t.meta.description);
-    upsertMeta("property", "og:title", t.meta.title);
-    upsertMeta("property", "og:description", t.meta.description);
+    upsertMeta("name", "description", meta.description);
+    upsertMeta("property", "og:title", meta.title);
+    upsertMeta("property", "og:description", meta.description);
     upsertMeta("property", "og:url", url);
     upsertMeta("property", "og:locale", OG_LOCALE[locale]);
-    upsertMeta("name", "twitter:title", t.meta.title);
-    upsertMeta("name", "twitter:description", t.meta.description);
+    upsertMeta("name", "twitter:title", meta.title);
+    upsertMeta("name", "twitter:description", meta.description);
     syncOgAlternates(locale);
 
     upsertLink("canonical", url);
-    for (const link of alternateLinks()) {
+    for (const link of alternateLinks(serviceId)) {
       upsertLink("alternate", link.href, link.hreflang);
     }
 
     const ld = document.getElementById("ld-business");
-    if (ld) ld.textContent = JSON.stringify(buildJsonLd(locale));
-  }, [locale, t]);
+    if (ld) ld.textContent = JSON.stringify(buildJsonLd(locale, serviceId));
+  }, [locale, serviceId, t]);
 
-  return useMemo(() => ({ locale, setLocale, t }), [locale, setLocale, t]);
+  return useMemo(() => ({ locale, setLocale, t, serviceId }), [locale, setLocale, t, serviceId]);
 });

@@ -15,8 +15,10 @@ export default function About() {
             <div className="absolute -left-3 -top-3 hidden h-24 w-24 rounded-tl-3xl border-l-[3px] border-t-[3px] border-brand/40 sm:block" />
             <div className="relative overflow-hidden rounded-2xl bg-navy shadow-card">
               <img
-                src={asset("img/hero-shop.png")}
+                src={asset("img/hero-shop.webp")}
                 alt="Başarı Bilgisayar"
+                width={1000}
+                height={585}
                 className="h-[260px] w-full object-cover object-center sm:h-[340px] lg:h-[420px]"
                 loading="lazy"
                 decoding="async"

@@ -1,4 +1,4 @@
-import { MapPin, MessageCircle, Navigation, Phone, Send } from "lucide-react";
+import { Clock, MapPin, MessageCircle, Navigation, Phone, Send } from "lucide-react";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
@@ -99,6 +99,13 @@ export default function Contact() {
                       {BUSINESS.addressLine2}
                     </p>
                     <p className="mt-1 text-[13px] text-ash">{BUSINESS.city}</p>
+                    <p className="mt-2.5 flex items-center gap-1.5 text-[13px] font-medium text-navy/80">
+                      <Clock className="h-3.5 w-3.5 text-brand" />
+                      <span>
+                        <span className="font-bold uppercase tracking-wide text-[11px] text-brand">{t.contact.hoursLabel}:</span>{" "}
+                        {t.contact.hoursValue}
+                      </span>
+                    </p>
                   </div>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2.5">

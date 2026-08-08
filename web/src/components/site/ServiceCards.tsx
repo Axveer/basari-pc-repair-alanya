@@ -1,9 +1,11 @@
 import { Apple, ChevronRight, Cog, Laptop, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import Reveal from "@/components/site/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import type { ServiceId } from "@/i18n/translations";
+import { servicePath } from "@/lib/seo";
 
 export const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
   technical: Wrench,
@@ -14,7 +16,7 @@ export const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
 
 /** Four highlight cards sitting right under the hero. */
 export default function ServiceCards() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section className="relative bg-ash-light pb-4 pt-8 sm:pb-8 sm:pt-12">
@@ -23,8 +25,8 @@ export default function ServiceCards() {
           const Icon = SERVICE_ICONS[item.id];
           return (
             <Reveal key={item.id} delay={index * 90}>
-              <a
-                href="#services"
+              <Link
+                to={servicePath(locale, item.id)}
                 className="card-base card-hover group flex h-full items-start gap-3.5 p-4 sm:flex-col sm:gap-4 sm:p-5"
               >
                 <span className="icon-badge h-12 w-12 transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
@@ -37,7 +39,7 @@ export default function ServiceCards() {
                   <span className="mt-1 block text-[13px] leading-relaxed text-ash sm:text-[14px]">{item.short}</span>
                 </span>
                 <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-ash/50 transition-transform group-hover:translate-x-0.5 group-hover:text-brand sm:hidden" />
-              </a>
+              </Link>
             </Reveal>
           );
         })}

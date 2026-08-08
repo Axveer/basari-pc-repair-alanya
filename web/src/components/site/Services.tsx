@@ -1,12 +1,14 @@
-import { Check, MessageCircle } from "lucide-react";
+import { ArrowRight, Check, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import Reveal from "@/components/site/Reveal";
 import { SERVICE_ICONS } from "@/components/site/ServiceCards";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { whatsappUrl } from "@/lib/business";
+import { servicePath } from "@/lib/seo";
 
 export default function Services() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section id="services" className="section-pad relative overflow-hidden bg-ash-light">
@@ -46,15 +48,24 @@ export default function Services() {
                     ))}
                   </ul>
 
-                  <a
-                    href={whatsappUrl(`${item.title} — `)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative mt-5 inline-flex items-center gap-2 font-display text-[13px] font-semibold text-brand transition-all hover:gap-3"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    {t.services.cta}
-                  </a>
+                  <div className="relative mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <Link
+                      to={servicePath(locale, item.id)}
+                      className="inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-brand transition-all hover:gap-2.5"
+                    >
+                      {t.services.more}
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                    <a
+                      href={whatsappUrl(`${item.title} — `)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 font-display text-[13px] font-semibold text-navy/60 transition-colors hover:text-brand"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      {t.services.cta}
+                    </a>
+                  </div>
                 </article>
               </Reveal>
             );

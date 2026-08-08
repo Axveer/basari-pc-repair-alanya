@@ -1,4 +1,5 @@
-import { asset, cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageProvider";
+import { asset, cn, homeHref } from "@/lib/utils";
 
 interface LogoProps {
   variant?: "light" | "dark";
@@ -7,13 +8,20 @@ interface LogoProps {
 
 /** Brand lockup: monitor mark + wordmark, per the brand asset sheet. */
 export default function Logo({ variant = "light", className }: LogoProps) {
+  const { locale } = useLanguage();
   const isDark = variant === "dark";
   return (
-    <a href="#home" className={cn("flex items-center gap-2.5 sm:gap-3", className)} aria-label="Başarı Bilgisayar">
+    <a
+      href={homeHref(locale)}
+      className={cn("flex items-center gap-2.5 sm:gap-3", className)}
+      aria-label="Başarı Bilgisayar"
+    >
       <img
         src={asset("img/logo-mark.png")}
         alt=""
         aria-hidden="true"
+        width={180}
+        height={155}
         className="h-9 w-auto sm:h-11 lg:h-12"
         loading="eager"
         decoding="async"

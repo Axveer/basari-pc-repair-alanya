@@ -5,13 +5,13 @@ import LanguageSwitcher from "@/components/site/LanguageSwitcher";
 import Logo from "@/components/site/Logo";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { BUSINESS, whatsappUrl } from "@/lib/business";
-import { cn } from "@/lib/utils";
+import { cn, homeHref } from "@/lib/utils";
 
 const SECTIONS = ["home", "about", "services", "parts", "blog", "contact"] as const;
 type SectionId = (typeof SECTIONS)[number];
 
 export default function Header() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [active, setActive] = useState<SectionId>("home");
@@ -117,7 +117,7 @@ export default function Header() {
             {navItems.map((item) => (
               <a
                 key={item.id}
-                href={`#${item.id}`}
+                href={homeHref(locale, `#${item.id}`)}
                 className={cn(
                   "relative px-3.5 py-2 font-display text-[13px] font-semibold uppercase tracking-wide transition-colors",
                   active === item.id ? "text-brand" : "text-navy/75 hover:text-brand",
@@ -182,7 +182,7 @@ export default function Header() {
             {navItems.map((item) => (
               <a
                 key={item.id}
-                href={`#${item.id}`}
+                href={homeHref(locale, `#${item.id}`)}
                 onClick={close}
                 className={cn(
                   "rounded-xl px-4 py-3.5 font-display text-[15px] font-semibold uppercase tracking-wide transition-colors",
